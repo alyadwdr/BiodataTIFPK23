@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Biodata TIF PK23</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+    }
+    .card {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 550px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+    }
+    h2 {
+      text-align: center;
+      color: #00bfff;
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+    }
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    input::placeholder {
+      color: #ddd;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #00bfff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #009ad9;
+    }
+    #status {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .spinner {
+      margin-top: 10px;
+      text-align: center;
+    }
+    .spinner div {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #00bfff;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .footer {
+      margin-top: 25px;
+      text-align: center;
+      font-size: 0.85em;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Biodata TIF PK23</h2>
+    <form id="dataForm">
+      <label>Nama Lengkap</label>
+      <input type="text" name="nama" required>
+
+      <label>Tempat, Tanggal Lahir</label>
+      <input type="text" name="ttl" required>
+
+      <label>Cita-cita</label>
+      <input type="text" name="cita" required>
+
+      <label>Quotes</label>
+      <input type="text" name="quotes" required>
+
+      <label>Upload Foto Diri</label>
+      <input type="file" name="foto" accept="image/*" required>
+
+      <button type="submit">Kirim</button>
+    </form>
+    <div id="status"></div>
+    <div class="spinner" id="spinner" style="display: none;"><div></div></div>
+    <div class="footer">Teknik Informatika | #RESPECT</div>
+  </div>
+
+  <script>
+    const form = document.getElementById('dataForm');
+    const statusDiv = document.getElementById('status');
+    const submitButton = form.querySelector('button');
+    const spinner = document.getElementById('spinner');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fileInput = form.querySelector('input[name="foto"]');
+      const reader = new FileReader();
+
+      statusDiv.innerHTML = '⏳ Mengirim data...';
+      spinner.style.display = 'block';
+      submitButton.disabled = true;
+      submitButton.innerText = 'Mengirim...';
+
+      reader.onloadend = function () {
+        const fotoBase64 = reader.result;
+        const formData = new URLSearchParams();
+
+        formData.append('nama', form.nama.value);
+        formData.append('ttl', form.ttl.value);
+        formData.append('cita', form.cita.value);
+        formData.append('quotes', form.quotes.value);
+        formData.append('foto', fotoBase64);
+
+        fetch('https://script.google.com/macros/s/AKfycbyqmPa_-jOE4QY2IYL0Xz6KNHsJOMKIOhHsbWs786_d8h-dK6i_faDfVbf3QfPYLOSS/exec', {
+          method: 'POST',
+          body: formData,
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then(res => res.text())
+        .then(text => {
+          statusDiv.innerText = '✅ ' + text;
+          form.reset();
+        })
+        .catch(err => {
+          statusDiv.innerText = '❌ Gagal: ' + err.message;
+        })
+        .finally(() => {
+          spinner.style.display = 'none';
+          submitButton.disabled = false;
+          submitButton.innerText = 'Kirim';
+        });
+      };
+
+      if (fileInput.files[0]) {
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        statusDiv.innerText = '';
+        alert("Silakan pilih foto terlebih dahulu.");
+        submitButton.disabled = false;
+        submitButton.innerText = 'Kirim';
+        spinner.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
