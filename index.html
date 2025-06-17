@@ -3,116 +3,205 @@
 <head>
   <meta charset="UTF-8">
   <title>Biodata TIF PK23</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=VT323&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      min-height: 100vh;
+      font-family: 'Fira Code', monospace;
+      background-color: #1e1e1e;
+      color: #d4d4d4;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
+      min-height: 100vh;
     }
-    .card {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 30px 40px;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 550px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(10px);
+
+    .editor-window {
+      background-color: #252526;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      display: flex;
+      overflow: hidden;
+      width: 95%;
+      max-width: 720px;
     }
+
+    .line-numbers {
+      background-color: #1e1e1e;
+      padding: 30px 10px;
+      text-align: right;
+      user-select: none;
+      color: #858585;
+      font-size: 14px;
+    }
+
+    .form-content {
+      flex-grow: 1;
+      padding: 30px;
+      position: relative;
+    }
+
+    .window-buttons {
+      display: flex;
+      gap: 8px;
+      position: absolute;
+      top: 12px;
+      left: 12px;
+    }
+
+    .window-buttons span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .window-buttons .red { background-color: #ff5f56; }
+    .window-buttons .yellow { background-color: #ffbd2e; }
+    .window-buttons .green { background-color: #27c93f; }
+
     h2 {
+      font-family: 'VT323', monospace;
+      font-size: 28px;
+      color: #4FC3F7;
       text-align: center;
-      color: #00bfff;
+      margin-top: 40px;
       margin-bottom: 25px;
     }
+
     label {
       display: block;
-      margin: 15px 0 5px;
+      margin-top: 15px;
+      font-size: 15px;
     }
+
     input[type="text"],
     input[type="file"] {
       width: 100%;
       padding: 10px;
-      border-radius: 8px;
-      border: none;
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
+      background-color: #1e1e1e;
+      border: 1px solid #555;
+      border-radius: 5px;
+      color: #fff;
+      margin-top: 5px;
     }
+
     input::placeholder {
-      color: #ddd;
+      color: #888;
     }
+
     button {
       width: 100%;
       padding: 12px;
       margin-top: 20px;
       border: none;
       border-radius: 8px;
-      background-color: #00bfff;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
       color: white;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      box-shadow: 0 0 8px #0072ff;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+
     button:hover {
-      background-color: #009ad9;
+      transform: scale(1.02);
+      box-shadow: 0 0 15px #00c6ff;
     }
+
     #status {
       margin-top: 20px;
       text-align: center;
+      color: #a0ffa0;
     }
+
     .spinner {
       margin-top: 10px;
       text-align: center;
     }
+
     .spinner div {
       width: 24px;
       height: 24px;
-      border: 3px solid #00bfff;
+      border: 3px solid #4FC3F7;
       border-top: 3px solid transparent;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       display: inline-block;
     }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
     .footer {
       margin-top: 25px;
       text-align: center;
       font-size: 0.85em;
-      color: #ccc;
+      color: #aaa;
+    }
+
+    @media (max-width: 600px) {
+      .editor-window {
+        flex-direction: row;
+      }
+
+      .line-numbers {
+        padding: 20px 5px;
+        font-size: 12px;
+      }
+
+      .form-content {
+        padding: 20px 15px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Biodata TIF PK23</h2>
-    <form id="dataForm">
-      <label>Nama Lengkap</label>
-      <input type="text" name="nama" required>
+  <div class="editor-window">
+    <div class="line-numbers">
+      1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17
+    </div>
+    <div class="form-content">
+      <div class="window-buttons">
+        <span class="red"></span>
+        <span class="yellow"></span>
+        <span class="green"></span>
+      </div>
 
-      <label>Tempat, Tanggal Lahir</label>
-      <input type="text" name="ttl" required>
+      <h2>Biodata TIF PK23</h2>
+      <form id="dataForm">
+        <label>Nama Lengkap</label>
+        <input type="text" name="nama" required>
 
-      <label>Cita-cita</label>
-      <input type="text" name="cita" required>
+        <label>Tempat, Tanggal Lahir</label>
+        <input type="text" name="ttl" required>
 
-      <label>Quotes</label>
-      <input type="text" name="quotes" required>
+        <label>Cita-cita</label>
+        <input type="text" name="cita" required>
 
-      <label>Upload Foto Diri</label>
-      <input type="file" name="foto" accept="image/*" required>
+        <label>Quotes</label>
+        <input type="text" name="quotes" required>
 
-      <button type="submit">Kirim</button>
-    </form>
-    <div id="status"></div>
-    <div class="spinner" id="spinner" style="display: none;"><div></div></div>
-    <div class="footer">Teknik Informatika | #RESPECT</div>
+        <label>Upload Foto Diri</label>
+        <input type="file" name="foto" accept="image/*" required>
+
+        <button type="submit">Kirim</button>
+      </form>
+      <div id="status"></div>
+      <div class="spinner" id="spinner" style="display: none;"><div></div></div>
+      <div class="footer">Teknik Informatika | #RESPECT</div>
+    </div>
   </div>
 
   <script>
